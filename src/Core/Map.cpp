@@ -40,10 +40,11 @@ namespace sw::core
 			= std::find_if(candidates.begin(), candidates.end(), [id](auto obj) -> bool { return id == obj->id(); });
 		SW_CORE_VERIFY_MSG(result != candidates.end(), "unit id is not found: "s + std::to_string(id));
 
+		auto object = *result;
 		candidates.erase(result);
 		_idToPosition.erase(id);
 
-		return *result;
+		return std::move(object);
 	}
 
 	void Map::emplace(IObject::Ptr object, const Position& position)
